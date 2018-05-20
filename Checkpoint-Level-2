@@ -1,0 +1,39 @@
+/* PRETTY PRINT
+
+Print concentric rectangular pattern in a 2d matrix. 
+Let us show you some examples to clarify what we mean.
+
+Example 1:
+
+Input: A = 4.
+Output:
+
+4 4 4 4 4 4 4 
+4 3 3 3 3 3 4 
+4 3 2 2 2 3 4 
+4 3 2 1 2 3 4 
+4 3 2 2 2 3 4 
+4 3 3 3 3 3 4 
+4 4 4 4 4 4 4 
+
+
+Solution
+*/
+public class Solution {
+    public int[][] prettyPrint(int A) {
+        if (A < 1) return null;
+        int n = 2 *(A -1) + 1;
+        int [][] res = new int[n][n];
+        int center = n/2;
+        res[center][center] = 1;
+        for (int val = 2; val <= A; val++) {
+            for (int j = center - val + 1; j <= (center + val - 1); j++) {
+                res[center + val - 1][j] = val;
+                res[center - val + 1][j] = val;
+                res[j][center + val - 1] = val;
+                res[j][center - val + 1] = val;
+            }
+        }
+        return res;
+    }
+}
