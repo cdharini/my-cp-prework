@@ -1,0 +1,71 @@
+/*
+LONGEST CONSECUTIVE SUBSEQUENCE
+Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+
+Example: 
+Given [100, 4, 200, 1, 3, 2],
+The longest consecutive elements sequence is [1, 2, 3, 4]. Return its length: 4.
+
+Your algorithm should run in O(n) complexity.
+*/
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int longestConsecutive(final int[] A) {
+        if (A == null || A.length == 0) return 0;
+        HashSet<Integer> hset = new HashSet<>();
+        
+        for (Integer n : A) {
+            hset.add(n);
+        }
+        int maxcount = 0;
+        for (int i = 0; i < A.length; i++) {
+            if (!hset.contains(A[i] - 1)) {
+                int count = 1;
+                int nextnum = A[i] + 1;
+                while (hset.contains(nextnum)) {
+                    nextnum++;
+                    count++;
+                }
+                if (count > maxcount) {
+                    maxcount = count;
+                }
+            }
+        }
+        return maxcount;
+    }
+}
+
+/*
+ALL UNIQUE PERMUTATIONS
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+Example :
+[1,1,2] have the following unique permutations:
+
+[1,1,2]
+[1,2,1]
+[2,1,1]
+*/
+public class Solution {
+    public ArrayList<ArrayList<Integer>> permute(ArrayList<Integer> A) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        Collections.sort(A);
+        backtrack(res, A, new ArrayList<Integer>(), new boolean[A.size()] );
+        return res;
+    }
+    
+    void backtrack(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> A, ArrayList<Integer> tmpRes, boolean[] isUsed) {
+        if (tmpRes.size() == A.size()) {
+            res.add(new ArrayList<>(tmpRes));
+            return;
+        }
+        for (int i = 0; i < A.size(); i++) {
+            if (isUsed[i] == true || (i > 0 && (A.get(i) == A.get(i - 1)) && !isUsed[i-1] )) continue;
+            isUsed[i] = true;
+            tmpRes.add(A.get(i));
+            backtrack(res, A, tmpRes, isUsed);
+            isUsed[i] = false;
+            tmpRes.remove(tmpRes.size() - 1);
+        }
+    }
+}
