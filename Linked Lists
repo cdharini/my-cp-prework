@@ -1,0 +1,63 @@
+/*
+REMOVE DUPES FROM SORTED LL
+Given a sorted linked list, delete all duplicates such that each element appear only once.
+
+For example,
+Given 1->1->2, return 1->2.
+Given 1->1->2->3->3, return 1->2->3.
+*/
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+public class Solution {
+    public ListNode deleteDuplicates(ListNode A) {
+        if (A == null || A.next == null) return A;
+        ListNode cur = A;
+        ListNode tmp = cur.next;
+        while (tmp != null) {
+            while (tmp != null && tmp.val == cur.val) {
+                tmp = tmp.next;
+            }
+            cur.next = tmp;
+            cur = tmp;
+            if (cur != null) {
+                tmp = cur.next;
+            }
+        }
+        return A;
+    }
+}
+
+/*
+INSERTION SORT LL
+*/
+public class Solution {
+    public ListNode insertionSortList(ListNode A) {
+        if (A == null || A.next == null) return A;
+        ListNode newhead = null;
+        ListNode i = A;
+        
+        while (i != null) {
+            ListNode nextnode = i.next;
+            if (newhead == null || newhead.val >= i.val) {
+                i.next = newhead;
+                newhead = i;
+            } else {
+                //find pos and insert
+                ListNode j = newhead;
+                while (j.next != null && j.next.val <= i.val) {
+                    j = j.next;
+                }
+                i.next = j.next;
+                j.next = i;
+            }
+            i = nextnode; 
+        }
+        return newhead;
+    }
+}
